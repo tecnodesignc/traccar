@@ -1,0 +1,16 @@
+{
+    "title": "Traccar",
+    "name": "Traccar",
+    "version":"1.0.0",
+    "minimumCoreVersion": "2.0",
+    "author": "Encore CMS",
+    "alias": "traccar",
+    "description": "",
+    "keywords": [],
+    "priority": 1,
+    "providers": [
+        "Modules\\Traccar\\Providers\\TraccarServiceProvider",
+        "Modules\\Traccar\\Providers\\RouteServiceProvider"
+    ],
+    "files": []
+}
