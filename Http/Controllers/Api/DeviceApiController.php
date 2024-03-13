@@ -47,11 +47,9 @@ class DeviceApiController extends Controller
 
 
         } catch (Exception $e) {
-
             Log::Error($e);
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
-
         }
 
         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);

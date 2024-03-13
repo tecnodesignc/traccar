@@ -11,6 +11,9 @@ use Mockery\CountValidator\Exception;
 use Modules\Traccar\Http\Requests\CreateTokenRequest;
 use Modules\Traccar\Repositories\TokenRepository;
 use Modules\Traccar\Services\AuthService;
+use Modules\User\Contracts\Authentication;
+use Modules\User\Events\UserLoggedIn;
+use Modules\User\Transformers\UserLoginTransformer;
 
 class TokenApiController extends Controller
 {
@@ -19,11 +22,11 @@ class TokenApiController extends Controller
      */
     private TokenRepository $token;
     private $user;
-
+    protected $auth;
     public function __construct(TokenRepository $token)
     {
         $this->token = $token;
-
+        $this->auth = app(Authentication::class);
     }
 
 
@@ -36,25 +39,26 @@ class TokenApiController extends Controller
     public function store(CreateTokenRequest $request): JsonResponse
     {
         try {
-            $user = Auth::user();
+
             $credentials = [
                 'email' => $request->input('email'),
                 'password' => $request->input('password')
             ];
             $authService=app(AuthService::class);
-            $token = $authService->setToken($credentials);
+            $user = $authService->auth($credentials);
 
-            if ($token->status){
-                $response = ["data" => $token->user_api_hash];
+            if (isset($user) && !empty($user)){
+                event(new UserLoggedIn($user));
+                $response = ["data" =>new UserLoginTransformer($user->load('roles'))];
+
             }else{
                 throw new Exception('Usuario o contraseña incorrecta', '401');
             }
 
 
         } catch (Exception $e) {
-
             Log::Error($e);
-            $status = $this->getStatusError($e->getCode());
+            $status = $e->getCode();
             $response = ["errors" => $e->getMessage()];
 
         }
