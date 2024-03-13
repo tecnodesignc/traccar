@@ -26,7 +26,6 @@ class DeviceService extends Connection
 
     public function GetDevice($device_id, $params)
     {
-
         $this->params(array_merge(['device_id'=>$device_id],$params));
         return $this->get('/edit_device_data');
 

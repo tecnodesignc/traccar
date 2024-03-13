@@ -11,19 +11,22 @@ use Mockery\CountValidator\Exception;
 use Modules\Traccar\Http\Requests\CreateTokenRequest;
 use Modules\Traccar\Repositories\TokenRepository;
 use Modules\Traccar\Services\AuthService;
+use Modules\Traccar\Services\DeviceService;
+use Modules\Traccar\Transformers\DeviceTransformer;
 
-class TokenApiController extends Controller
+class DeviceApiController extends Controller
 {
     /**
      * @var TokenRepository
      */
     private TokenRepository $token;
     private $user;
+    protected DeviceService $device_gps;
 
-    public function __construct(TokenRepository $token)
+    public function __construct(TokenRepository $token, DeviceService $device_gps)
     {
         $this->token = $token;
-
+        $this->device_gps = $device_gps;
     }
 
 
@@ -33,22 +36,14 @@ class TokenApiController extends Controller
      * @param CreateTokenRequest $request
      * @return JsonResponse
      */
-    public function store(CreateTokenRequest $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
             $user = Auth::user();
-            $credentials = [
-                'email' => $request->input('email'),
-                'password' => $request->input('password')
-            ];
-            $authService=app(AuthService::class);
-            $token = $authService->setToken($credentials);
-
-            if ($token->status){
-                $response = ["data" => $token->user_api_hash];
-            }else{
-                throw new Exception('Usuario o contraseña incorrecta', '401');
-            }
+            $token = $this->token->findByAttributes(['user_id' => $user->id]);
+            $devices= $this->device_gps->GetDevices(['user_api_hash'=>$token->user_api_hash]);
+            $devices = DeviceTransformer::collection($devices[0]->items);
+            $response = ["data" => $devices];
 
 
         } catch (Exception $e) {

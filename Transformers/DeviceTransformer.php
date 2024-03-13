@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class TokenTransformer extends JsonResource
+class DeviceTransformer extends JsonResource
 {
 
     /**
@@ -18,14 +18,16 @@ class TokenTransformer extends JsonResource
 
     public function toArray($request): array
     {
-
         $data = [
             'id' => $this->when($this->id, $this->id),
-            'created_at' => $this->when($this->created_at, $this->created_at),
-            'update_at' => $this->when($this->created_at, $this->created_at),
+            'name' => $this->name,
+            'imei' => $this->device_data->imei ?? '',
+            'type' => $this->device_data->plate_number,
+            'brand' => '',
+            'model' => '',
+            's_motor' => '',
+            's_chassis' => ''
         ];
-
-        $filter = json_decode($request->filter);
 
         return $data;
 
