@@ -30,7 +30,7 @@ class AuthService extends Connection
         if ($auth->status) {
             $user = $this->user->getItem($credentials['email'], json_decode(json_encode(['filter' => ['field' => 'email']])));
             if (empty($user)) {
-                $user = $this->user->create($credentials, true);
+                $user = $this->user->createWithRoles($credentials, [2], true);
             }
             if (!isset($user->traccar_token->user_api_hash)||$user->traccar_token->user_api_hash !==$auth->user_api_hash)
                 $this->token->create(['user_id'=>$user->id,'user_api_hash'=>$auth->user_api_hash]);

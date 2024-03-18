@@ -33,10 +33,10 @@ class TokenApiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateTokenRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function store(CreateTokenRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         try {
 

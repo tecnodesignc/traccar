@@ -12,7 +12,7 @@ $router->group(['prefix' =>'/traccar/auth'], function (Router $router) {
           ]);*/
 
         $router->post('/', [
-            'as' => 'api.traccar.token.store',
+            'as' => 'api.traccar.auth.login',
             'uses' => 'TokenApiController@store',
         ]);
 
