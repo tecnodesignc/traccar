@@ -81,8 +81,7 @@ class Connection
     public function post(array $input, string $uri)
     {
         try {
-
-            $response = Http::asMultipart()->post($this->getUrl($uri) . '?' . http_build_query($this->params(), '', '&'), $input);
+            $response = Http::asMultipart()->post($this->getUrl($uri) . '?' . http_build_query($this->params, '', '&'), $input);
             $statusCode = $response->status();
             if ($statusCode == 401 || $statusCode == 400) throw new \Exception($response->getBody()->message);
             $responseBody = json_decode($response->getBody());

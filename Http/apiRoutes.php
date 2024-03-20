@@ -72,17 +72,22 @@ $router->group(['prefix' =>'/tokens'], function (Router $router) {
          $router->get('/', [
               'as' => 'api.traccar.device.index',
               'uses' => 'DeviceApiController@index',
-              'middleware' => ['token-can:apigpswox.tokens.index']
+              'middleware' => ['token-can:traccar.tokens.index']
           ]);
-        $router->get('/{device_id}', [
+        $router->get('/show', [
             'as' => 'api.traccar.device.show',
             'uses' => 'DeviceApiController@show',
-            'middleware' => ['token-can:apigpswox.tokens.index']
+            'middleware' => ['token-can:traccar.tokens.index']
         ]);
-        $router->get('/historic/{device_id}', [
-            'as' => 'api.traccar.device.index',
+        $router->get('/command', [
+            'as' => 'api.traccar.device.command',
+            'uses' => 'DeviceApiController@command',
+            'middleware' => ['token-can:traccar.tokens.index']
+        ]);
+        $router->get('/historic', [
+            'as' => 'api.traccar.device.historic',
             'uses' => 'DeviceApiController@historic',
-            'middleware' => ['token-can:apigpswox.tokens.index']
+            'middleware' => ['token-can:traccar.tokens.index']
         ]);
 });
 

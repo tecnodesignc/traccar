@@ -31,4 +31,19 @@ class DeviceService extends Connection
 
     }
 
+    public function SetCommand($device_id,$command,$params=[],$type='custom')
+    {
+        $this->params($params);
+
+        $input=[
+            'device_id'=>$device_id,
+            'type'=>$type,
+            'data'=>$command
+        ];
+        $device = $this->post($input,'/send_gprs_command');
+
+        return $device;
+
+    }
+
 }

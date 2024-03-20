@@ -32,7 +32,8 @@ class AuthService extends Connection
             if (empty($user)) {
                 $user = $this->user->createWithRoles($credentials, [2], true);
             }
-            if (!isset($user->traccar_token->user_api_hash)||$user->traccar_token->user_api_hash !==$auth->user_api_hash)
+            $token = $this->token->findByAttributes(['user_id' => $user->id]);
+            if (!isset($token->user_api_hash)|| $token->user_api_hash !== $auth->user_api_hash)
                 $this->token->create(['user_id'=>$user->id,'user_api_hash'=>$auth->user_api_hash]);
         }
         return $user;
