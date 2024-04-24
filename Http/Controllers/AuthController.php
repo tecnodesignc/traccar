@@ -44,7 +44,6 @@ class AuthController extends BasePublicController
         if (empty($user->id)){
             $error = $this->auth->login($credentials, $remember);
             if ($error) {
-                dd(redirect()->back()->withInput()->withError($error));
                 return redirect()->back()->withInput()->withError($error);
             }
 

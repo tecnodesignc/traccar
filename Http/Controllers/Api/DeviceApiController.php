@@ -41,8 +41,15 @@ class DeviceApiController extends Controller
         try {
             $user = Auth::user();
             $token = $this->token->findByAttributes(['user_id' => $user->id]);
-            $devices= $this->device_gps->GetDevices(['user_api_hash'=>$token->user_api_hash]);
-            $devices = DeviceTransformer::collection($devices[0]->items);
+            $devices_tracar= $this->device_gps->GetDevices(['user_api_hash'=>$token->user_api_hash]);
+            $devices=[];
+            foreach ($devices_tracar as $device) {
+               foreach ($device->items as $item) {
+                   $devices[]=$item;
+               }
+            }
+
+            $devices = DeviceTransformer::collection($devices);
             $response = ["data" => $devices];
 
 
