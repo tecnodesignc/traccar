@@ -1,16 +1,21 @@
 {
     "title": "Traccar",
     "name": "Traccar",
-    "version":"1.0.0",
-    "minimumCoreVersion": "2.0",
-    "author": "Encore CMS",
     "alias": "traccar",
-    "description": "",
-    "keywords": [],
+    "description": "The Traccar module for EncoreCMS",
+    "keywords": [
+        "EncoreCMS",
+        "Eje Satelital",
+        "Traccar"
+    ],
+    "author": "Marcos Rativa",
+    "require": {},
+    "version": "1.0.0",
     "priority": 1,
     "providers": [
         "Modules\\Traccar\\Providers\\TraccarServiceProvider",
         "Modules\\Traccar\\Providers\\RouteServiceProvider"
     ],
-    "files": []
+    "files": [],
+    "minimumCoreVersion": "3.0"
 }
