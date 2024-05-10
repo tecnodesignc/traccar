@@ -33,7 +33,7 @@
             "Modules\\": "modules/"
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "authors": [
         {
